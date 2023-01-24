@@ -2,22 +2,23 @@
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
 #include <ESP8266WiFi.h>
-#include "index.h"
-
+#include "main.h"
 const char* ssid = "Test";
 const char* password ="12345678";
-
 ESP8266WebServer server(80);
-
-void handleRoot(){
+// void withPictures(){
+//   digitalWrite(2,0);
+//   server.send(200,"text/html",withPic);
+//   digitalWrite(2,1);
+// }
+void noPictures(){
   digitalWrite(2,0);
-  server.send(200,"text/html",htmlPage);
+  server.send(200,"text/html",NoPic);
   digitalWrite(2,1);
 }
-
 void setup(){
   Serial.begin(115200);
-  delay(10);
+  delay(10);  
   pinMode(2,OUTPUT);
   Serial.println();
 
@@ -34,7 +35,9 @@ void setup(){
   Serial.println("Wifi Connected");
   Serial.print("Ip Address: ");
   Serial.println(WiFi.localIP());
-  server.on("/",handleRoot);
+  server.on("/",noPictures);
+  // server.on("/no",noPictures);
+
 
   server.begin();
   Serial.println("HTTP server started");
@@ -45,6 +48,5 @@ void setup(){
 void loop(){
   server.handleClient();
 }
-
 
 
